@@ -1,13 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Rides from './Ride';
 
 class ShowRides extends React.Component{
     constructor(props){
         super(props);
         this.state ={
-            getRide : false,
-            offerRide : false
+            getRide : false
         }
+    }
+
+    bookRide = (rideId) =>{
+        this.props.bookRide(rideId);
+    }
+
+    cancelRide = (rideId) =>{
+        this.props.cancelRide(rideId);
     }
 
     handleClick = (e)=>{
@@ -28,10 +36,10 @@ class ShowRides extends React.Component{
     render(){
         return(
             <>
-                <div className="dataDiv pt-5" >
-                    <div className="row">
+                <div className="dataDiv pt-5" style={{overflowX:"hidden", overflowY:"inherit"}}>
+                    <div className="row" >
                         <div className = "col-sm-8 offset-sm-2">
-                            <div className="card ">
+                            <div className="card">
                                 <div className="card-header bg-primary" >
                                     Book A Ride
                                 </div>
@@ -41,10 +49,22 @@ class ShowRides extends React.Component{
                                     book a ride or offer a ride. Did we mention that this app is advertisement free ? To add on top of that
                                     free of cost ! So what are you waiting for ? Check out the rides available and start PCing!!
                                     </p>
-
-                                    {this.state.getRide ? <Rides handleClick={this.handleClick} /> :<button onClick={this.handleClick} name="give" className="btn btn-primary">Show All Rides</button>}
+                                    {this.state.getRide ? <Rides 
+                                                        cancelRide = {this.cancelRide}
+                                                        bookRide = {this.bookRide}
+                                                        handleClick={this.handleClick} 
+                                                        rides = {this.props.rides}/> 
+                                                        :<button onClick={this.handleClick} 
+                                                        name="give" className="btn btn-primary">
+                                                            Show All Rides
+                                                        </button>
+                                    }
                                     <br/><br/>
-                                    {this.state.offerRide ? <Rides /> :<button onClick={this.handleClick} name="offer" className="btn btn-primary">Offer a Ride</button>}
+                                    <Link to="/offerride">
+                                        <button className="btn btn-primary">
+                                                Offer a Ride
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

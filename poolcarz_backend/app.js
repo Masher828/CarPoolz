@@ -16,14 +16,15 @@ var connect = mongoose.connect(config.mongoUrl);
 connect.then((db)=>{
   console.log("Database connected");
 });
-app.all("*", (req, res, next)=>{
-  if (!req.secure){
-    res.redirect(307,'https://'+req.hostname+':'+app.get('secport')+req.url);
-  }
-  else{
-    return next();
-  }
-})
+
+// app.all("*", (req, res, next)=>{
+//   if (!req.secure){
+//     res.redirect(307,'https://'+req.hostname+':'+app.get('secport')+req.url);
+//   }
+//   else{
+//     return next();
+//   }
+// })
 app.use(session({
   name:'session-id',
   resave : false,

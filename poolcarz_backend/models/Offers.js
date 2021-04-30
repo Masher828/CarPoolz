@@ -33,4 +33,4 @@ const Offer = new Schema({
 
 },{timestamps : true});
 
-module.exports = mongoose.Model("Offer",Offer);
+module.exports = mongoose.model("Offer",Offer);

@@ -1,5 +1,5 @@
-var mongoos  = require('mongoose');
-var Schema = mongoos.Schema;
+var mongoose  = require('mongoose');
+var Schema = mongoose.Schema;
 
 const Ride = new Schema({
     rideId : {
@@ -28,4 +28,4 @@ const Ride = new Schema({
     }
 }, {timestamps : true});
 
-module.exports = mongoose.Model('Ride', Ride);
+module.exports = mongoose.model('Ride', Ride);
