@@ -1,16 +1,16 @@
 import {FETCH_RIDE_REQUEST, FETCH_RIDE_RECEIVED, FETCH_RIDE_FAILED} from './ActionTypes';
-import {data} from '../shared/Ride';
-const initstate = {isFetching : false, message : "", success:"", rides:data};
+const initstate = {isFetching : false, message : false, offer:[]};
 export const FetchRide =(state = initstate, action)=>{
+    
     switch(action.type){
         case FETCH_RIDE_REQUEST:
-            return Object.assign({}, state,{message : "", success:"",isFetching:true});
+            return Object.assign({}, state,{message : false, isFetching:true});
         
         case FETCH_RIDE_RECEIVED:
-            return Object.assign({}, state,{message : "Received", success:"success",isFetching:false});
+            return Object.assign({}, state,{offer:action.response.offer,isFetching:false});
         
         case FETCH_RIDE_FAILED:
-            return Object.assign({}, state,{message : "Failed", success:"warning",isFetching:false});
+            return Object.assign({}, state,{message : "Failed",isFetching:false});
         
         default:
             return state;

@@ -9,7 +9,6 @@ export const OfferRide = (state=initstate, action)=>{
             return Object.assign({}, state,{message : "", success:"",isFetching:true});
         
         case OFFER_RIDE_RECEIVED:
-            console.log(action);
             return Object.assign({}, state,{message : "Received", success:"success",isFetching:false});
         
         case OFFER_RIDE_FAILED:

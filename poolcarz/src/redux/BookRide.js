@@ -1,6 +1,6 @@
 import {BOOK_RIDE_REQUEST, BOOK_RIDE_RECEIVED, BOOK_RIDE_FAILED, CANCEL_RIDE_REQUEST, CANCEL_RIDE_RECEIVED, CANCEL_RIDE_FAILED} from './ActionTypes';
 
-const initstate = {isFetching : false, message : "", success:""};
+const initstate = {isFetching : false, message : ""};
 
 export const BookRide = (state=initstate, action)=>{
     switch(action.type){

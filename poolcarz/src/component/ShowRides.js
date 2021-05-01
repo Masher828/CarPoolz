@@ -37,7 +37,7 @@ class ShowRides extends React.Component{
         return(
             <>
                 <div className="dataDiv pt-5" style={{overflowX:"hidden", overflowY:"inherit"}}>
-                    <div className="row" >
+                    <div className="row">
                         <div className = "col-sm-8 offset-sm-2">
                             <div className="card">
                                 <div className="card-header bg-primary" >
@@ -53,7 +53,7 @@ class ShowRides extends React.Component{
                                                         cancelRide = {this.cancelRide}
                                                         bookRide = {this.bookRide}
                                                         handleClick={this.handleClick} 
-                                                        rides = {this.props.rides}/> 
+                                                        offer = {this.props.offer}/> 
                                                         :<button onClick={this.handleClick} 
                                                         name="give" className="btn btn-primary">
                                                             Show All Rides

@@ -8,11 +8,12 @@ var sessionFileStore = require('session-file-store')(session);
 var passport = require('passport');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var rideRouter = require('./routes/Rides');
 const config = require('./config');
 var mongoose = require('mongoose');
 
 var app = express();
-var connect = mongoose.connect(config.mongoUrl);
+var connect = mongoose.connect(config.mongoUrl,{useFindAndModify:false});
 connect.then((db)=>{
   console.log("Database connected");
 });
@@ -45,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/ride',rideRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

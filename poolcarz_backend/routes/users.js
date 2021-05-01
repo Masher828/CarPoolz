@@ -10,7 +10,7 @@ router.options('*',cors.corsWithOptions, (req, res)=>{res.sendStatus(200);})
 
 router.post('/signup', cors.corsWithOptions, (req,res, next)=>{
   console.log(req.body);
-User.register(new User({username : req.body.username}), req.body.password)
+User.register(new User({username : req.body.username, name : req.body.name}), req.body.password)
 .then((user, err)=>{
   if (err){
     res.statusCode = 400;
@@ -20,7 +20,7 @@ User.register(new User({username : req.body.username}), req.body.password)
   else{
     user.save((err, user)=>{
       if (err){
-        res.statusCode = 400;
+        res.statusCode = 200;
         res.setHeader('Content-Type','application/json');
         res.json({success : false, message : err});
       }
@@ -28,24 +28,30 @@ User.register(new User({username : req.body.username}), req.body.password)
         passport.authenticate('local')(req,res, ()=>{
           res.statusCode = 200;
           res.setHeader('Content-Type','application/json');
-          res.json({success : true, message: "Signup successful"});
+          res.json({success : true});
         })
       }
     })
   }
-}, (err)=>next(err));
+}, (err)=>{res.statusCode = 200;
+  res.setHeader('Content-Type','application/json');
+  res.json({success : false, message : err});})
+  .catch((err)=>{res.statusCode = 200;
+    res.setHeader('Content-Type','application/json');
+    res.json({success : false, message : err})});
 });
 
-router.post('/login', (req, res, next)=>{
+router.post('/login', cors.corsWithOptions, (req, res, next)=>{
   passport.authenticate('local', (err, user, info)=>{
     if (err){
       return next(err);
     }
     if (!user){
-        res.statusCode = 400;
+        res.statusCode = 200;
         res.setHeader('Content-Type','application/json');
-        res.json({success : false, message : err});
+        res.json({success : false, message : "Invalid Id and Password"});
     }
+    else{
       req.logIn(user, (err)=>{
         if (err){
           res.statusCode = 400;
@@ -53,27 +59,25 @@ router.post('/login', (req, res, next)=>{
           res.json({success : false, message : err});
         }
         else{
+          console.log(req.session);
           var token = authenticate.getToken({_id : req.user._id});
           res.statusCode = 200;
           res.setHeader('Content-Type','application/json');
           res.json({success : true, message: "Login successful", token:token});
         }
       })
+    }
+      
   })(req, res, next);
-})
+});
 
-router.get('/logout', (req, res)=>{
-  if (!req.session.passport){
-    res.statusCode = 403;
-    res.setHeader('Content-Type','application/json');
-    res.json({success:false, message:"You are not logged In"});
-  }
-  else{
-    req.session.destroy();
-    res.clearCookie('session-id');
-    res.statusCode = 200;
-    res.setHeader('Content-Type','application/json');
-    res.json({success:true, message:"Successfully Logged out"});
-  }
+router.get('/logout',cors.corsWithOptions, (req, res)=>{
+  req.logOut();
+  req.session.destroy();
+  res.clearCookie('session-id');
+  res.statusCode = 200;
+  res.setHeader('Content-Type','application/json');
+  res.json({success:true, message:"Successfully Logged out"});
+
 })
 module.exports = router;

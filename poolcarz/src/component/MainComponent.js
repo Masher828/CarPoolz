@@ -3,10 +3,11 @@ import Header from './Header';
 import Footer from './Footer';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {fetchRide, loginUser, logoutUser, bookRide, cancelRide, offerRide} from '../redux/ActionCreators'
-import Form from './Home';
+import {fetchRide, loginUser, logoutUser, bookRide, cancelRide, offerRide, registerUser} from '../redux/ActionCreators'
+import LoginForm from './Login';
 import ShowRide from './ShowRides';
 import OfferRide from './OfferRide';
+import RegisterFrom from './Register';
 import BG from "../Assets/Images/BG.jpg";
 
 var mapStateToProps = function(state){
@@ -19,10 +20,10 @@ var mapDispatchToProps = function(dispatch){
     return {
         loginUser : (username,password) => dispatch(loginUser(username,password)),
         logoutUser : () => dispatch(logoutUser()),
-        fetchRide : () => dispatch(fetchRide()),
         bookRide : (rideId)=> dispatch(bookRide(rideId)),
         cancelRide : (rideId) => dispatch(cancelRide(rideId)),
-        offerRide : (rideDetails) => dispatch(offerRide(rideDetails))
+        offerRide : (rideDetails) => dispatch(offerRide(rideDetails)),
+        registerUser : (data) => dispatch(registerUser(data))
     }
   }
 
@@ -30,23 +31,15 @@ var mapDispatchToProps = function(dispatch){
 class Main extends React.Component{
     constructor(){
         super();
-        this.state={
-            homeLogin1Register0:true
-        };
     }
     changeHomePage = (e)=>{
         this.setState({homeLogin1Register0:!this.state.homeLogin1Register0});
-    }
-    componentDidMount(){
-        this.props.fetchRide();
     }
     render(){
         let height = String(window.screen.availWidth+100);
         return (
             <>
-                
                 <Header 
-                page ={this.state.homeLogin1Register0}
                 isAuthenticated={this.props.auth.isAuthenticated} 
                 isFetching={this.props.auth.isAuthFetching}
                 changeHomePage={this.changeHomePage}
@@ -56,14 +49,20 @@ class Main extends React.Component{
                                 backgroundSize: "cover", height: "78vh", color: "#f5f5f5", overflowX:"hidden",
                                 overflowY:"auto", maxHeight:{height}}}>
                     <Switch>
-                        <Route exact path = "/" component = {()=><Form 
-                                                                page={this.state.homeLogin1Register0} 
+                        <Route exact path = "/" component = {()=><LoginForm 
+                                                                message = {this.props.auth.lmessage}
                                                                 isAuthenticated={this.props.auth.isAuthenticated} 
                                                                 loginUser={this.props.loginUser} />} />
+                        <Route exact path ="/register" component = {()=><RegisterFrom 
+                                                                    status = {this.props.auth.status}
+                                                                    message = {this.props.auth.rmessage}  
+                                                                    isLoading = {this.props.auth.isLoading}
+                                                                    isAuthenticated={this.props.auth.isAuthenticated}
+                                                                    registerUser = {this.props.registerUser} />} />
                         <Route path = "/showrides" component = {()=> <ShowRide 
                                                                 cancelRide = {this.props.cancelRide}
                                                                 bookRide = {this.props.bookRide}
-                                                                rides = {this.props.rides.rides}/>} />
+                                                                offer = {this.props.rides.offer}/>} />
                         <Route path= "/offerride" component = {()=><OfferRide 
                                                                 offerRide = {this.props.offerRide}/>} />
                         <Redirect to="/" />

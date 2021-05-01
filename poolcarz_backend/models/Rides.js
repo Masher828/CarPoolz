@@ -2,9 +2,9 @@ var mongoose  = require('mongoose');
 var Schema = mongoose.Schema;
 
 const Ride = new Schema({
-    rideId : {
+    id : {
         type : Number,
-        required : true
+        autoIncrement : true
     },
     riderName : {
         type : String,
@@ -14,12 +14,8 @@ const Ride = new Schema({
         type : String,
         required : true
     },
-    pickUp :{
-        type : String,
-        required : true
-    },
-    destination : {
-        type : String,
+    rideeId : {
+        type : mongoose.Types.ObjectId,
         required : true
     },
     status : {

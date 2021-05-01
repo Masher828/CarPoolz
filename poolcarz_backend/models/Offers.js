@@ -2,12 +2,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 const Offer = new Schema({
-    id : {
-        type : Number,
-        required : true,
-        min : 0,
-        unique : true
-    },
     name : {
         type : String,
         required : true
@@ -16,18 +10,22 @@ const Offer = new Schema({
         type : String,
         required : true
     },
-    seatsLeft:{
+    seats:{
         type : Number,
         required : true,
         min : 0,
         max : 8
     },
-    pickUp:{
+    start:{
         type : String,
         required : true
     },
-    destination : {
+    end : {
         type : String,
+        required : true
+    },
+    user : {
+        type : mongoose.Types.ObjectId,
         required : true
     }
 

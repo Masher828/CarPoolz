@@ -14,8 +14,8 @@ class Header extends React.Component{
             <a className="navbar-brand" href="#">PoolCarz</a>
             {this.props.isAuthenticated ? 
                 <div className="btn-group" role="group" aria-label="Basic example">
-                    <Link to ="/">
-                        <button type="button" className="btn btn-dark" onClick={()=><Redirect to="/showrides" />}>Home</button>
+                    <Link to ="/showrides">
+                        <button type="button" className="btn btn-dark" >Home</button>
                     </Link>
                     <button type="button" className="btn btn-dark" onClick={this.handleLogout}>Logout</button>
                 </div>
@@ -24,13 +24,16 @@ class Header extends React.Component{
                 <span className="sr-only"></span>
             </div>
             : <div className="btn-group" role="group" aria-label="Basic example">
-                    {this.props.page? 
-                    <button type="button" className="btn btn-dark" onClick={this.props.changeHomePage}>
-                        Register
-                    </button>
-                    :<button type="button" className="btn btn-dark" onClick={this.props.changeHomePage}>
-                        Login
-                     </button>}  
+                    <Link to="/">
+                        <button type="button" className="btn btn-dark">
+                            Login
+                        </button>
+                    </Link>
+                    <Link to="/register">
+                        <button type="button" className="btn btn-dark">
+                            Register
+                        </button>
+                    </Link>
               </div>
             }
         </nav>

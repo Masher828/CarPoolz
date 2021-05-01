@@ -5,24 +5,24 @@ class Ride extends React.Component{
         super(props);
         this.state = {
             filter : "all",
-            addRide: -1,
+            rideIndex: -1,
             rideBooked : false
         }
     }
 
     bookRide = () =>{
         if (this.state.rideBooked){
-            this.props.cancelRide(this.props.rides[this.state.addRide].id);
+            this.props.cancelRide({offerId:this.props.offer[this.state.rideIndex]._id});
             this.setState({rideBooked : !this.state.rideBooked});
         }
         else{
-            this.props.bookRide(this.props.rides[this.state.addRide].id);
+            this.props.bookRide({offerId : this.props.offer[this.state.rideIndex]._id});
             this.setState({rideBooked : !this.state.rideBooked});
         }
         
     }
     addRide = (val) =>{
-        this.setState({addRide:Number(val)});
+        this.setState({rideIndex:Number(val)});
     }
 
     render(){
@@ -56,10 +56,10 @@ class Ride extends React.Component{
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.rides.map((ride, index)=> {
+                        {this.props.offer.map((ride, index)=> {
                             
                             return(
-                                <tr key={index} onClick={()=>this.addRide(index)}>
+                                <tr key={ride._id} onClick={()=>this.addRide(index)}>
                                     <td>{ride.start}</td>
                                     <td>{ride.end}</td>
                                     <td>{ride.seats}</td>
@@ -70,7 +70,7 @@ class Ride extends React.Component{
                 </table>
                 </div>
                 }
-                {this.state.addRide > -1?
+                {this.state.rideIndex > -1?
                 <div className="card text-center mt-3">
                     <div className="card-header bg-primary">
                         Ride Details
@@ -87,12 +87,12 @@ class Ride extends React.Component{
                         </tr>
                     </thead>
                     <tbody>
-                        <tr key={this.props.rides[this.state.addRide]}>
-                            <td>{this.props.rides[this.state.addRide].name}</td>
-                            <td>{this.props.rides[this.state.addRide].start}</td>
-                            <td>{this.props.rides[this.state.addRide].end}</td>
-                            <td>{this.props.rides[this.state.addRide].seats}</td>
-                            <td>{this.props.rides[this.state.addRide].car}</td>
+                        <tr key={this.props.offer[this.state.rideIndex]._id}>
+                            <td>{this.props.offer[this.state.rideIndex].name}</td>
+                            <td>{this.props.offer[this.state.rideIndex].start}</td>
+                            <td>{this.props.offer[this.state.rideIndex].end}</td>
+                            <td>{this.props.offer[this.state.rideIndex].seats-1}</td>
+                            <td>{this.props.offer[this.state.rideIndex].car}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -100,7 +100,7 @@ class Ride extends React.Component{
                 <center>
                 {this.state.rideBooked?
                 <>
-                <p className="mt-3" style={{color:'black'}}>Ride Booked. Id is {this.props.rides[this.state.addRide].id}</p>
+                <p className="mt-3" style={{color:'black'}}>Ride Booked. Id is {this.props.offer[this.state.rideIndex]._id}</p>
                 <button onClick={this.bookRide} 
                         name="give" className="btn btn-md btn-danger text-center mb-3"
                         style={{width:"8em"}}>
