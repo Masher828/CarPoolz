@@ -23,7 +23,8 @@ var mapDispatchToProps = function(dispatch){
         bookRide : (rideId)=> dispatch(bookRide(rideId)),
         cancelRide : (rideId) => dispatch(cancelRide(rideId)),
         offerRide : (rideDetails) => dispatch(offerRide(rideDetails)),
-        registerUser : (data) => dispatch(registerUser(data))
+        registerUser : (data) => dispatch(registerUser(data)),
+        fetchRide : ()=> dispatch(fetchRide())
     }
   }
 
@@ -31,6 +32,10 @@ var mapDispatchToProps = function(dispatch){
 class Main extends React.Component{
     constructor(){
         super();
+    }
+    componentDidMount(){
+        console.log("Hi");
+        this.props.fetchRide();
     }
     changeHomePage = (e)=>{
         this.setState({homeLogin1Register0:!this.state.homeLogin1Register0});
